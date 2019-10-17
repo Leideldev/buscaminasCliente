@@ -33,7 +33,8 @@ import javax.swing.JTextField;
  */
 public class tablero implements MouseListener  {
     int tamanox;
-    int tamanoy;   
+    int tamanoy;
+    jugador Jugador = new jugador();
     JFrame tablero;
     JPanel panelJuego;
     casilla[][] juego;
@@ -96,8 +97,8 @@ public class tablero implements MouseListener  {
    
     public String getName() {
         return JOptionPane.showInputDialog(
-                tablero, "choose a screen name:",
-                "Screen name selection",
+                tablero, "Escribe tu nombre:",
+                "Nombre de jugador",
                 JOptionPane.PLAIN_MESSAGE);
 
     }
@@ -116,6 +117,7 @@ public class tablero implements MouseListener  {
                     crearTablero();
                 } else if (line.startsWith("NAMEACCEPTED")) {                  
                     tablero.setTitle("Buscaminas - " + line.substring(13));
+                    Jugador.setNombre(line.substring(13));
                     textField.setEditable(true);
                 } else if (line.startsWith("SIZE")) {
                     String [] arrayan;
@@ -128,6 +130,11 @@ public class tablero implements MouseListener  {
                   partidaPerdida();
               }else if(line.startsWith("ABIERTAS")){
                    String [] arrayan;
+                    arrayan = line.split(",");
+                   juego[Integer.parseInt(arrayan[1])][Integer.parseInt(arrayan[2])].casillaTablero.setEnabled(false);
+                   juego[Integer.parseInt(arrayan[1])][Integer.parseInt(arrayan[2])].casillaTablero.setText(String.valueOf(Integer.parseInt(arrayan[3])));
+              }else if(line.startsWith("ABIERTA")){
+                  String [] arrayan;
                     arrayan = line.split(",");
                    juego[Integer.parseInt(arrayan[1])][Integer.parseInt(arrayan[2])].casillaTablero.setEnabled(false);
                    juego[Integer.parseInt(arrayan[1])][Integer.parseInt(arrayan[2])].casillaTablero.setText(String.valueOf(Integer.parseInt(arrayan[3])));
@@ -197,14 +204,20 @@ public class tablero implements MouseListener  {
     @Override
     public void mouseClicked(MouseEvent e) {
       try{
+          System.out.println(e.getButton());
           if(e.getButton() == 1){
-               out.println("descubrir " + "," + map.get(e.getSource()).posicionx + "," +  map.get(e.getSource()).posiciony);
+              if((map.get(e.getSource()).casillaTablero.isEnabled())){
+                  out.println("descubrir " + "," + map.get(e.getSource()).posicionx + "," +  map.get(e.getSource()).posiciony);
+              }else{
+                   out.println("descubriruna " + "," + map.get(e.getSource()).posicionx + "," +  map.get(e.getSource()).posiciony);
+              }              
           }     
             if(e.getButton() == 3){
                 
             if((map.get(e.getSource()).casillaTablero.isEnabled())){
                      Image img = ImageIO.read(new FileInputStream("C:\\Users\\Fer\\Documents\\NetBeansProjects\\buscaminasServidor\\src\\images\\bandera.bmp"));
                  map.get(e.getSource()).casillaTablero.setIcon(new ImageIcon(img));
+                 Jugador.setSigueJugando(false);
                   out.println("marcar " + "," + map.get(e.getSource()).posicionx + "," +  map.get(e.getSource()).posiciony);
                 }          
                  

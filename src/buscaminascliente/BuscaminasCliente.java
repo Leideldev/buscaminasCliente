@@ -32,7 +32,7 @@ public class BuscaminasCliente {
      */
     public static void main(String[] args) throws Exception {
         if (args.length != 1) {
-            System.err.println("Pass the server ip as the solve ");
+            System.err.println("Escribe una ip valida como parametro ");
             return;
         }
         tablero client = new tablero(args[0]);
