@@ -136,6 +136,8 @@ public class tablero implements MouseListener  {
               }else if(line.startsWith("ABIERTA")){
                   String [] arrayan;
                     arrayan = line.split(",");
+                    System.out.println("entro a abierta");
+                    System.out.println(arrayan[1] + "," + arrayan[2]);
                    juego[Integer.parseInt(arrayan[1])][Integer.parseInt(arrayan[2])].casillaTablero.setEnabled(false);
                    juego[Integer.parseInt(arrayan[1])][Integer.parseInt(arrayan[2])].casillaTablero.setText(String.valueOf(Integer.parseInt(arrayan[3])));
               }
@@ -204,12 +206,12 @@ public class tablero implements MouseListener  {
     @Override
     public void mouseClicked(MouseEvent e) {
       try{
-          System.out.println(e.getButton());
+        
           if(e.getButton() == 1){
               if((map.get(e.getSource()).casillaTablero.isEnabled())){
+                 
+                  System.out.println("llega a descubrir");
                   out.println("descubrir " + "," + map.get(e.getSource()).posicionx + "," +  map.get(e.getSource()).posiciony);
-              }else{
-                   out.println("descubriruna " + "," + map.get(e.getSource()).posicionx + "," +  map.get(e.getSource()).posiciony);
               }              
           }     
             if(e.getButton() == 3){
