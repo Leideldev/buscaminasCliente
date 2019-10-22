@@ -112,6 +112,8 @@ public class tablero implements MouseListener  {
             
             while (in.hasNextLine()) {
                 String line = in.nextLine();
+                String [] arrayan;
+                    arrayan = line.split(",");
                 if (line.startsWith("SUBMITNAME")) {
                     out.println(getName());
                     crearTablero();
@@ -120,26 +122,35 @@ public class tablero implements MouseListener  {
                     Jugador.setNombre(line.substring(13));
                     textField.setEditable(true);
                 } else if (line.startsWith("SIZE")) {
-                    String [] arrayan;
-                    arrayan = line.split(",");
-                    System.out.println(arrayan[0]);
+
+                    Jugador.setColor((arrayan[3]));
                     crearPanelJuego(Integer.parseInt(arrayan[1]), Integer.parseInt(arrayan[2]));                
                     llenarPanelJuego();
-                    agregarPanelesTablero();       
+                    agregarPanelesTablero();                    
                 }else if(line.startsWith("PERDEDOR")){
                   partidaPerdida();
               }else if(line.startsWith("ABIERTAS")){
-                   String [] arrayan;
-                    arrayan = line.split(",");
+                 
+                    System.out.println("entro a abiertas");
                    juego[Integer.parseInt(arrayan[1])][Integer.parseInt(arrayan[2])].casillaTablero.setEnabled(false);
                    juego[Integer.parseInt(arrayan[1])][Integer.parseInt(arrayan[2])].casillaTablero.setText(String.valueOf(Integer.parseInt(arrayan[3])));
-              }else if(line.startsWith("ABIERTA")){
-                  String [] arrayan;
-                    arrayan = line.split(",");
+              }else if(line.startsWith("ABIERTA")){      
                     System.out.println("entro a abierta");
                     System.out.println(arrayan[1] + "," + arrayan[2]);
                    juego[Integer.parseInt(arrayan[1])][Integer.parseInt(arrayan[2])].casillaTablero.setEnabled(false);
                    juego[Integer.parseInt(arrayan[1])][Integer.parseInt(arrayan[2])].casillaTablero.setText(String.valueOf(Integer.parseInt(arrayan[3])));
+              }else if(line.startsWith("MARCADA")){
+                   Image img = ImageIO.read(new FileInputStream("C:\\Users\\Fer\\Documents\\NetBeansProjects\\buscaminasServidor\\src\\images\\bandera" + arrayan[3] +".png"));
+                 juego[Integer.parseInt(arrayan[1])][Integer.parseInt(arrayan[2])].casillaTablero.setIcon(new ImageIcon(img));
+               
+              }else if(line.startsWith("DESMARCADA")){
+                juego[Integer.parseInt(arrayan[1])][Integer.parseInt(arrayan[2])].casillaTablero.setIcon(null);
+              }else if(line.startsWith("GANADOR")){
+                 if(arrayan[1].equals(Jugador.color)){
+                     JOptionPane.showMessageDialog(null, "HAS GANADO");
+                 }else{
+                      JOptionPane.showMessageDialog(null, "HAS PERDIDO, HASTA LA PROXIMA");
+                 }
               }
             }
         } finally {
@@ -200,12 +211,13 @@ public class tablero implements MouseListener  {
              juego[i][j].casillaTablero.setEnabled(false);
              juego[i][j].casillaTablero.setBackground(Color.red);
         }  
-        }         
+        }
+        JOptionPane.showMessageDialog(null, "Has explotado una mina");
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-      try{
+   
         
           if(e.getButton() == 1){
               if((map.get(e.getSource()).casillaTablero.isEnabled())){
@@ -216,17 +228,13 @@ public class tablero implements MouseListener  {
           }     
             if(e.getButton() == 3){
                 
-            if((map.get(e.getSource()).casillaTablero.isEnabled())){
-                     Image img = ImageIO.read(new FileInputStream("C:\\Users\\Fer\\Documents\\NetBeansProjects\\buscaminasServidor\\src\\images\\bandera.bmp"));
-                 map.get(e.getSource()).casillaTablero.setIcon(new ImageIcon(img));
-                 Jugador.setSigueJugando(false);
-                  out.println("marcar " + "," + map.get(e.getSource()).posicionx + "," +  map.get(e.getSource()).posiciony);
+            if((map.get(e.getSource()).casillaTablero.isEnabled())){        
+                  out.println("marcar " + "," + map.get(e.getSource()).posicionx + "," +  map.get(e.getSource()).posiciony + "," + Jugador.color);
                 }          
                  
         }
             
-        }catch(IOException j){
-        }   
+          
     }
 
     @Override

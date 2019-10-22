@@ -13,6 +13,15 @@ public class jugador {
     String nombre;
     boolean sigueJugando= true;
     boolean ganador= false;
+    String color;
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
     tablero tableroCliente;
 
     public String getNombre() {
