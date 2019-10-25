@@ -124,6 +124,7 @@ public class tablero implements MouseListener  {
                 } else if (line.startsWith("SIZE")) {
 
                     Jugador.setColor((arrayan[3]));
+                    System.out.println("Tamano x:" + Integer.parseInt(arrayan[1]));
                     crearPanelJuego(Integer.parseInt(arrayan[1]), Integer.parseInt(arrayan[2]));                
                     llenarPanelJuego();
                     agregarPanelesTablero();                    
@@ -147,10 +148,13 @@ public class tablero implements MouseListener  {
                 juego[Integer.parseInt(arrayan[1])][Integer.parseInt(arrayan[2])].casillaTablero.setIcon(null);
               }else if(line.startsWith("GANADOR")){
                  if(arrayan[1].equals(Jugador.color)){
-                     JOptionPane.showMessageDialog(null, "HAS GANADO");
+                     JOptionPane.showMessageDialog(tablero, "HAS GANADO");
                  }else{
-                      JOptionPane.showMessageDialog(null, "HAS PERDIDO, HASTA LA PROXIMA");
+                      JOptionPane.showMessageDialog(tablero, "HAS PERDIDO, HASTA LA PROXIMA");
                  }
+              }else if(line.startsWith("EXPLOTADAS")){
+                   juego[Integer.parseInt(arrayan[1])][Integer.parseInt(arrayan[2])].casillaTablero.setEnabled(false);
+                   juego[Integer.parseInt(arrayan[1])][Integer.parseInt(arrayan[2])].casillaTablero.setBackground(Color.red);
               }
             }
         } finally {
@@ -212,7 +216,7 @@ public class tablero implements MouseListener  {
              juego[i][j].casillaTablero.setBackground(Color.red);
         }  
         }
-        JOptionPane.showMessageDialog(null, "Has explotado una mina");
+        JOptionPane.showMessageDialog(null, "Ha explotado una mina");
     }
 
     @Override
