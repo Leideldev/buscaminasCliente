@@ -25,7 +25,7 @@ import javax.swing.JTextField;
  */
 public class BuscaminasCliente {
 
-     
+    
     
     /**
      * @param args the command line arguments

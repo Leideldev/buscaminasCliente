@@ -37,6 +37,8 @@ public class tablero implements MouseListener  {
     jugador Jugador = new jugador();
     JFrame tablero;
     JPanel panelJuego;
+    JPanel panelComenzar = null;
+    JButton botonComenzar = new JButton();
     casilla[][] juego;
     HashMap<JButton, casilla> map = new HashMap<JButton, casilla>();
     Scanner in;
@@ -115,7 +117,7 @@ public class tablero implements MouseListener  {
                 String [] arrayan;
                     arrayan = line.split(",");
                 if (line.startsWith("SUBMITNAME")) {
-                    out.println(getName());
+                    
                     crearTablero();
                 } else if (line.startsWith("NAMEACCEPTED")) {                  
                     tablero.setTitle("Buscaminas - " + line.substring(13));
@@ -127,7 +129,15 @@ public class tablero implements MouseListener  {
                     System.out.println("Tamano x:" + Integer.parseInt(arrayan[1]));
                     crearPanelJuego(Integer.parseInt(arrayan[1]), Integer.parseInt(arrayan[2]));                
                     llenarPanelJuego();
-                    agregarPanelesTablero();                    
+                     System.out.println("Entra panelcom");
+                      panelComenzar = new JPanel();
+                      panelComenzar.setLayout(new GridLayout(1,1));
+                      botonComenzar.addMouseListener(this);
+                      tablero.add(panelComenzar);  
+                      panelComenzar.add(botonComenzar);
+                      tablero.setVisible(true);
+                      panelComenzar.setVisible(true);
+                                     
                 }else if(line.startsWith("PERDEDOR")){
                   partidaPerdida();
               }else if(line.startsWith("ABIERTAS")){
@@ -155,6 +165,12 @@ public class tablero implements MouseListener  {
               }else if(line.startsWith("EXPLOTADAS")){
                    juego[Integer.parseInt(arrayan[1])][Integer.parseInt(arrayan[2])].casillaTablero.setEnabled(false);
                    juego[Integer.parseInt(arrayan[1])][Integer.parseInt(arrayan[2])].casillaTablero.setBackground(Color.red);
+              }else if(line.startsWith("COMENZAR")){
+                              System.out.println("Comenzarpar");
+                   botonComenzar.setText("COMENZAR PARTIDA");    
+              }else if(line.startsWith("comenzada")){               
+                  tablero.remove(panelComenzar);
+                  agregarPanelesTablero();
               }
             }
         } finally {
@@ -224,11 +240,19 @@ public class tablero implements MouseListener  {
    
         
           if(e.getButton() == 1){
+              if((map.get(e.getSource()) != null)){
               if((map.get(e.getSource()).casillaTablero.isEnabled())){
                  
                   System.out.println("llega a descubrir");
                   out.println("descubrir " + "," + map.get(e.getSource()).posicionx + "," +  map.get(e.getSource()).posiciony);
-              }              
+              }
+              }
+              if(e.getSource().equals(botonComenzar)){
+                  if(botonComenzar.getText().equals("COMENZAR PARTIDA")){
+                       out.println("comenzar ");
+
+              }
+              }
           }     
             if(e.getButton() == 3){
                 
